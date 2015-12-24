@@ -82,6 +82,12 @@
                                 <div class="form-group">                                      
                                     <select name="nationality" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
                                         <option value="">Status</option>                                              
+                                        <option value="New">New</option>                                              
+                                        <option value="InProgress">InProgress</option>                                              
+                                        <option value="OrderPlaced">OrderPlaced</option>                                              
+                                        <option value="Support">Support</option>                                              
+                                        <option value="Cancelled">Cancelled</option>                                              
+                                        <option value="Rejected">Rejected</option>                                              
                                     </select>    
                                     <p class="help-block"></p>
                                 </div>
@@ -90,7 +96,46 @@
                     </form>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="visit">
-                    sdsdsd
+                    <form>
+                        <div class="row" style="margin-top: 7px">
+                            <div class="col-md-6">
+                                <div class="form-group">     
+                                    <label>Date</label>
+                                    <input type="date" name="date" class="form-control input-sm" ></textarea>                                                  
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">     
+                                    <label>Time</label>
+                                    <input type="time" name="date" class="form-control input-sm" ></textarea>                                                  
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row" style="margin-top: 7px">
+                            <div class="col-md-12">
+                                <div class="form-group">                                  
+                                    <textarea placeholder="notes" rows="8" type="text" name="givenName" class="form-control input-sm" ></textarea>                                                  
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">                                      
+                                    <select name="nationality" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
+                                        <option value="">Action</option>                                              
+                                        <option value="Offer">Offer</option>                                              
+                                        <option value="Lead">Lead</option>                                              
+                                        <option value="Opportunity">Opportunity</option>                                              
+                                        <option value="New Customer">New Customer</option>                                             
+                                    </select>  
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                        </div>    
+                    </form>
                 </div>          
             </div>          
         </div>            
@@ -101,7 +146,7 @@
     <footer>
         <div class="row">
             <div class="col-md-12">
-                 <button ng-click="master.sortCustomerList()" type="button" class="btn btn-default pull-right">Save</button>
+                <button ng-click="master.sortCustomerList()" type="button" class="btn btn-default pull-right">Save</button>
             </div>
         </div>
     </footer>

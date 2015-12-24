@@ -40,7 +40,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
             return dataSharing.dataObj[key];
         },
         login: function (data) {
-            return $http.post('http://localhost:8080/SRA/authenticate', data)
+            return $http.post('http://172.16.1.105:8080/SRA/authenticate', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -53,7 +53,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         logout: function (data) {
-            return $http.post('http://localhost:8080/SRA/logout', data)
+            return $http.post('http://172.16.1.105:8080/SRA/logout', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -66,7 +66,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         getAllCustomer: function (data) {
-            return $http.post('http://localhost:8080/SRA/customer/list', data)
+            return $http.post('http://172.16.1.105:8080/SRA/customer/list', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -79,7 +79,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         getCustomerDetails: function (data) {
-            return $http.post('http://localhost:8080/SRA/customer/details', data)
+            return $http.post('http://172.16.1.105:8080/SRA/customer/details', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -153,6 +153,7 @@ srModule.controller('LoginController', function ($http, $scope, $cookies, Helper
                         $scope.message = response.message;
                     }
                 }, function (error) {
+                    window.alert('sdsdsdsd');
                     console.log(error);
                 });
     }
@@ -210,7 +211,7 @@ srModule.controller('DetailController', function ($scope, $cookies, DataService)
 
     DataService.getCustomerDetails({
         'sessionId': responseLogin.sessionId,
-        'customerid': selectCustomer.id+''
+        'customerid': selectCustomer.id + ''
     })
             .then(function (response) {
                 console.log(response);
