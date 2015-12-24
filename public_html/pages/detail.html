@@ -73,19 +73,21 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="notes">
-                    <form name="notesForm">
+                    <form name="notesForm" novalidate>
                         <div class="row" style="margin-top: 7px">
                             <div class="col-md-12">
-                                <div class="form-group">                                  
-                                    <textarea ng-model="detail.note.notes" placeholder="take a note" rows="12" type="text" name="content" class="form-control input-sm" ></textarea>                                                  
-                                    <p class="help-block"></p>
+                                <div class="form-group"
+                                     ng-class="{true: 'has-error'}[detail.submit && notesForm.content.$invalid]">                                  
+                                    <textarea ng-model="detail.note.notes" placeholder="take a note" rows="12" name="content" class="form-control input-sm" required></textarea>                                                  
+                                    <p class="help-block" ng-show="detail.submit && notesForm.content.$error.required">Note is required</p>
                                 </div>
                             </div>
                         </div>    
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group">                                      
-                                    <select ng-model="detail.note.status" name="nationality" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
+                                <div class="form-group"
+                                     ng-class="{true: 'has-error'}[detail.submit && notesForm.status.$invalid]">                                      
+                                    <select ng-model="detail.note.status" name="status" class="form-control input-sm" required>
                                         <option value="">Status</option>                                              
                                         <option value="New">New</option>                                              
                                         <option value="InProgress">InProgress</option>                                              
@@ -94,49 +96,53 @@
                                         <option value="Cancelled">Cancelled</option>                                              
                                         <option value="Rejected">Rejected</option>                                              
                                     </select>    
-                                    <p class="help-block"></p>
+                                    <p class="help-block" ng-show="detail.submit && notesForm.status.$error.required">Status is required</p>
                                 </div>
                             </div>
-                        </div>    
+                        </div> 
                     </form>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="visit">
-                    <form>
+                    <form name="visitForm" novalidate>
                         <div class="row" style="margin-top: 7px">
                             <div class="col-md-6">
-                                <div class="form-group">     
+                                <div class="form-group"
+                                     ng-class="{true: 'has-error'}[detail.submit && visitForm.date.$invalid]">     
                                     <label>Date</label>
-                                    <input ng-model="detail.date"  type="date" name="date" class="form-control input-sm" ></textarea>                                                  
-                                    <p class="help-block"></p>
+                                    <input ng-model="detail.visit.date"  type="date" name="date" class="form-control input-sm" required></textarea>                                                  
+                                    <p class="help-block" ng-show="detail.submit && visitForm.date.$error.required">Date is required</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">     
+                                <div class="form-group"
+                                      ng-class="{true: 'has-error'}[detail.submit && visitForm.time.$invalid]">     
                                     <label>Time</label>
-                                    <input ng-model="detail.time" type="time" name="time" class="form-control input-sm" ></textarea>                                                  
-                                    <p class="help-block"></p>
+                                    <input ng-model="detail.visit.time" type="time" name="time" class="form-control input-sm" required>                                                 
+                                    <p class="help-block" ng-show="detail.submit && visitForm.time.$error.required">Time is required</p>
                                 </div>
                             </div>
                         </div> 
                         <div class="row" style="margin-top: 7px">
                             <div class="col-md-12">
-                                <div class="form-group">                                  
-                                    <textarea ng-model="detail.visitData.visit.notes" placeholder="notes" rows="8" type="text" name="notes" class="form-control input-sm" ></textarea>                                                  
-                                    <p class="help-block"></p>
+                                <div class="form-group"
+                                      ng-class="{true: 'has-error'}[detail.submit && visitForm.notes.$invalid]">                                  
+                                    <textarea ng-model="detail.visitData.visit.notes" placeholder="notes" rows="8" name="notes" class="form-control input-sm" required></textarea>                                                  
+                                    <p class="help-block" ng-show="detail.submit && visitForm.notes.$error.required">Note is required</p>
                                 </div>
                             </div>
                         </div>    
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group">                                      
-                                    <select ng-model="detail.visitData.visit.action" name="action" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
+                                <div class="form-group"
+                                     ng-class="{true: 'has-error'}[detail.submit && visitForm.action.$invalid]">                                      
+                                    <select required ng-model="detail.visitData.visit.action" name="action" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
                                         <option value="">Action</option>                                              
                                         <option value="Offer">Offer</option>                                              
                                         <option value="Lead">Lead</option>                                              
                                         <option value="Opportunity">Opportunity</option>                                              
                                         <option value="New Customer">New Customer</option>                                             
                                     </select>  
-                                    <p class="help-block"></p>
+                                    <p class="help-block" ng-show="detail.submit && visitForm.action.$error.required">Action is required</p>
                                 </div>
                             </div>
                         </div>    
@@ -151,7 +157,8 @@
     <footer>
         <div class="row">
             <div class="col-md-12">
-                <button ng-click="detail.save()" type="button" class="btn btn-default pull-right">Save</button>
+                <button ng-show="detail.activePageIndex == 1" ng-click="detail.save(true, notesForm.$valid)" type="button" class="btn btn-default pull-right">Save</button>
+                <button ng-show="detail.activePageIndex == 2" ng-click="detail.save(true, visitForm.$valid)" type="button" class="btn btn-default pull-right">Save</button>
             </div>
         </div>
     </footer>

@@ -40,7 +40,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
             return dataSharing.dataObj[key];
         },
         login: function (data) {
-            return $http.post('http://192.168.0.105:8080/SRA/authenticate', data)
+            return $http.post('http://localhost:8080/SRA/authenticate', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -53,7 +53,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         logout: function (data) {
-            return $http.post('http://192.168.0.105:8080/SRA/logout', data)
+            return $http.post('http://localhost:8080/SRA/logout', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -66,7 +66,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         getAllCustomer: function (data) {
-            return $http.post('http://192.168.0.105:8080/SRA/customer/list', data)
+            return $http.post('http://localhost:8080/SRA/customer/list', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -79,7 +79,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         getCustomerDetails: function (data) {
-            return $http.post('http://192.168.0.105:8080/SRA/customer/details', data)
+            return $http.post('http://localhost:8080/SRA/customer/details', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -92,7 +92,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         savenotes: function (data) {
-            return $http.post('http://192.168.0.105:8080/SRA/customer/savenotes', data)
+            return $http.post('http://localhost:8080/SRA/customer/savenotes', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -105,7 +105,7 @@ srModule.factory('DataService', function ($http, $q, dataSharing) {
                     });
         },
         savevisit: function (data) {
-            return $http.post('http://192.168.0.105:8080/SRA/customer/savevisit', data)
+            return $http.post('http://localhost:8080/SRA/customer/savevisit', data)
                     .then(function (response) {
                         if (typeof response.data === 'object') {
                             return response.data;
@@ -236,6 +236,7 @@ srModule.controller('DetailController', function ($scope, $cookies, $filter, Dat
 
     this.note = {};
     this.activePageIndex = 1;
+    this.submit = false;
 
     DataService.getCustomerDetails({
         'sessionId': responseLogin.sessionId,
@@ -260,39 +261,47 @@ srModule.controller('DetailController', function ($scope, $cookies, $filter, Dat
 
     this.setTab = function (tab) {
         this.activePageIndex = tab;
+        this.submit = false;
     }
 
 
-    this.save = function () {
-        console.log(console.log(this.activePageIndex));
-        if (this.activePageIndex == 1) {
-            this.note.sessionId = responseLogin.sessionId;
-            this.note.customerid = selectCustomer.id + '';
-            console.log(this.note);
+    this.save = function (submit, valid) {
+        console.log(this.activePageIndex);
+        this.submit = submit;
+        if (valid) {
+            if (this.activePageIndex == 1) {
+                this.note.sessionId = responseLogin.sessionId;
+                this.note.customerid = selectCustomer.id + '';
+                console.log(this.note);
 
-            DataService.savenotes(this.note)
-                    .then(function (response) {
-                        console.log(response);
-                        this.note = {};
-                    }, function (error) {
-                        console.log(error);
-                    });
+                DataService.savenotes(this.note)
+                        .then(function (response) {
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                        });
 
-        } else if (this.activePageIndex == 2) {
-            this.visitData.sessionId = responseLogin.sessionId;
-            this.visitData.customerid = selectCustomer.id + '';
-            this.visitData.visit.date = $filter('date')(this.date, 'yyyy-MM-dd');
-            this.visitData.visit.time = $filter('date')(this.time, 'hh:mm a');
-            console.log(this.visitData);
+                this.note = {};
 
-            DataService.savevisit(this.visitData)
-                    .then(function (response) {
-                        console.log(response);
-                        this.visitData = {};
-                    }, function (error) {
-                        console.log(error);
-                    });
+            } else if (this.activePageIndex == 2) {
+                this.visitData.sessionId = responseLogin.sessionId;
+                this.visitData.customerid = selectCustomer.id + '';
+                this.visitData.visit.date = $filter('date')(this.visit.date, 'yyyy-MM-dd');
+                this.visitData.visit.time = $filter('date')(this.visit.time, 'hh:mm a');
+                console.log(this.visitData);
 
+                DataService.savevisit(this.visitData)
+                        .then(function (response) {
+                            console.log(response);
+                        }, function (error) {
+                            console.log(error);
+                        });
+
+                this.visitData = {};
+                this.visit = {};
+            }
+            //
+            this.submit=false;
         }
 
     }
