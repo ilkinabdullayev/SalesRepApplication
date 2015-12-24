@@ -48,7 +48,8 @@
                     </span>
                     &nbsp;&nbsp; 
                     <a ng-show="{{com.category == 'Email'}}" href="mailto:{{com.value}}"> {{com.value}}</a>
-                    <span ng-show="{{com.category != 'Email'}}">{{com.value}}</span>              
+                    <a ng-show="{{com.category == 'Phone'}}" href="tel:{{com.value}}"> {{com.value}}</a>
+                    <span ng-show="{{com.category != 'Email' && com.category != 'Phone'}}">{{com.value}}</span>         
                 </li>               
                 <li class="list-group-item">
                     <span class="label label-primary">Address</span>
@@ -58,21 +59,25 @@
                 </li>  
             </ul>               
         </div>            
-        <div class="col-md-8">
+        <div class="col-md-8">            
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#detail#notes" aria-controls="home" role="tab" data-toggle="tab">Notes</a></li>
-                <li role="presentation"><a href="#detail#visit" aria-controls="profile" role="tab" data-toggle="tab">Visit</a></li>               
+                <li role="presentation" class="active">
+                    <a ng-click="detail.setTab(1)" data-target="#notes" aria-controls="home" role="tab" data-toggle="tab">Notes</a>
+                </li>
+                <li role="presentation">
+                    <a ng-click="detail.setTab(2)" data-target="#visit" aria-controls="profile" role="tab" data-toggle="tab">Visit</a>
+                </li>               
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="notes">
-                    <form>
+                    <form name="notesForm">
                         <div class="row" style="margin-top: 7px">
                             <div class="col-md-12">
                                 <div class="form-group">                                  
-                                    <textarea placeholder="take a note" rows="12" type="text" name="givenName" class="form-control input-sm" ></textarea>                                                  
+                                    <textarea ng-model="detail.note.notes" placeholder="take a note" rows="12" type="text" name="content" class="form-control input-sm" ></textarea>                                                  
                                     <p class="help-block"></p>
                                 </div>
                             </div>
@@ -80,7 +85,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">                                      
-                                    <select name="nationality" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
+                                    <select ng-model="detail.note.status" name="nationality" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
                                         <option value="">Status</option>                                              
                                         <option value="New">New</option>                                              
                                         <option value="InProgress">InProgress</option>                                              
@@ -101,14 +106,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">     
                                     <label>Date</label>
-                                    <input type="date" name="date" class="form-control input-sm" ></textarea>                                                  
+                                    <input ng-model="detail.date"  type="date" name="date" class="form-control input-sm" ></textarea>                                                  
                                     <p class="help-block"></p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">     
                                     <label>Time</label>
-                                    <input type="time" name="date" class="form-control input-sm" ></textarea>                                                  
+                                    <input ng-model="detail.time" type="time" name="time" class="form-control input-sm" ></textarea>                                                  
                                     <p class="help-block"></p>
                                 </div>
                             </div>
@@ -116,7 +121,7 @@
                         <div class="row" style="margin-top: 7px">
                             <div class="col-md-12">
                                 <div class="form-group">                                  
-                                    <textarea placeholder="notes" rows="8" type="text" name="givenName" class="form-control input-sm" ></textarea>                                                  
+                                    <textarea ng-model="detail.visitData.visit.notes" placeholder="notes" rows="8" type="text" name="notes" class="form-control input-sm" ></textarea>                                                  
                                     <p class="help-block"></p>
                                 </div>
                             </div>
@@ -124,7 +129,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">                                      
-                                    <select name="nationality" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
+                                    <select ng-model="detail.visitData.visit.action" name="action" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
                                         <option value="">Action</option>                                              
                                         <option value="Offer">Offer</option>                                              
                                         <option value="Lead">Lead</option>                                              
@@ -146,7 +151,7 @@
     <footer>
         <div class="row">
             <div class="col-md-12">
-                <button ng-click="master.sortCustomerList()" type="button" class="btn btn-default pull-right">Save</button>
+                <button ng-click="detail.save()" type="button" class="btn btn-default pull-right">Save</button>
             </div>
         </div>
     </footer>
