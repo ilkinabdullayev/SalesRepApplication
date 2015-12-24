@@ -1,15 +1,25 @@
+.pointer{
+    cursor: pointer
+}
 
+.m15px{
+    margin-top: 15px
+}
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
 
+.login-panel .panel-footer{
+    height: 50px
+}
 
-
-
-
-
-
+.login-message{
+    color: #a94442;
+    display: block;
+    text-align: center
+}
 
 
 

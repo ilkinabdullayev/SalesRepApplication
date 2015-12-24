@@ -1,0 +1,109 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#detail">{{detail.customerName}}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">                      
+                <li><a href="#" ng-click="detail.logout();">Logout</a></li>
+            </ul>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row m15px">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#master">List of Customers</a></li>
+                <li><a href="#detail">{{detail.customerName}}</a></li>
+            </ol>         
+        </div>                
+    </div>          
+    <div class="row">
+        <div class="col-md-4">
+            <ul class="list-group">               
+                <li class="list-group-item">
+                    <span class="label label-primary">Customer ID</span>&nbsp;&nbsp;
+                    {{customerdetails.id}}
+                </li>
+                <li class="list-group-item">
+                    <span class="label label-primary">Product Name</span>&nbsp;&nbsp;
+                    {{customerdetails.productname}}
+                </li>
+                <li class="list-group-item">
+                    <span class="label label-primary">Status</span>&nbsp;&nbsp;
+                    {{customerdetails.status}}
+                </li>
+                <li class="list-group-item" ng-repeat="com in customerdetails.communications">
+                    <span class="label label-primary">
+                        {{com.category}} 
+                        <span ng-hide="{{com.type == 'Skype'}}">{{com.type}}</span>
+                    </span>
+                    &nbsp;&nbsp; 
+                    <a ng-show="{{com.category == 'Email'}}" href="mailto:{{com.value}}"> {{com.value}}</a>
+                    <span ng-show="{{com.category != 'Email'}}">{{com.value}}</span>              
+                </li>               
+                <li class="list-group-item">
+                    <span class="label label-primary">Address</span>
+                    <span  ng-repeat="address in customerdetails.addresses">
+                        {{address.country}} , {{address.state}} , {{address.city}} , {{address.street1}}
+                    </span>                  
+                </li>  
+            </ul>               
+        </div>            
+        <div class="col-md-8">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#detail#notes" aria-controls="home" role="tab" data-toggle="tab">Notes</a></li>
+                <li role="presentation"><a href="#detail#visit" aria-controls="profile" role="tab" data-toggle="tab">Visit</a></li>               
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="notes">
+                    <form>
+                        <div class="row" style="margin-top: 7px">
+                            <div class="col-md-12">
+                                <div class="form-group">                                  
+                                    <textarea placeholder="take a note" rows="12" type="text" name="givenName" class="form-control input-sm" ></textarea>                                                  
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">                                      
+                                    <select name="nationality" class="form-control input-sm" data-required="true" data-requiredmessage="Vətəndaşlığı seçin">
+                                        <option value="">Status</option>                                              
+                                    </select>    
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                        </div>    
+                    </form>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="visit">
+                    sdsdsd
+                </div>          
+            </div>          
+        </div>            
+    </div>
+
+    <hr>
+
+    <footer>
+        <div class="row">
+            <div class="col-md-12">
+                 <button ng-click="master.sortCustomerList()" type="button" class="btn btn-default pull-right">Save</button>
+            </div>
+        </div>
+    </footer>
+</div>       
+
